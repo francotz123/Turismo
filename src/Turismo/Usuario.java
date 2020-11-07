@@ -19,8 +19,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [presupuesto=" + presupuesto + ", timpoDisponible=" + timpoDisponible + ", atraccionFav="
-				+ atraccionFav + ", nombre=" + nombre + "]";
+		return "Nombre: "+nombre+", Presupuesto: "+presupuesto+", TiempoDisponible: "+timpoDisponible+", AtraccionPreferida: "+atraccionFav;
 	}
 
 	public  void leerAtracciones(LinkedList<Usuario> lista) {

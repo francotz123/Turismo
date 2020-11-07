@@ -22,8 +22,8 @@ public class PromocionAbsoluta extends Promocion {
 		for (Atraccion atraccion : atracciones) {
 		nombresAtraccion +=  atraccion.getNombre()+" ";
 		}
-		return "Pack " + nombre + ", tipo=" + tipo + ", nombresAtraccion="
-				+ nombresAtraccion + "precio ="+total ;
+		return "Pack " + nombre + ", nombresAtraccion="
+				+ nombresAtraccion + "precio = $"+total ;
 	}
 
 	public Integer getDescuento() {

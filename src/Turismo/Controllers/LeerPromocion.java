@@ -21,14 +21,17 @@ public class LeerPromocion extends Producto {
 	static ArrayList<PromocionPorcentual> promocionesPorc = new ArrayList<PromocionPorcentual>();
 	static ArrayList<PromocionAbsoluta> promocionesAbs = new ArrayList<PromocionAbsoluta>();
 	static ArrayList<PromocionAxB> promocionesAxB = new ArrayList<PromocionAxB>();
-	
+	static ArrayList<Atraccion> atraccionFree = new ArrayList<Atraccion>();
 
 	public void getPromocion(String file) throws FileNotFoundException{
 		Scanner sc = new Scanner(new File(file));
 		sc.useLocale(Locale.ENGLISH);
 		String control= "-";
+		String controlGratis= ",";
 		Double descuento = 0.0;
 		Integer total = 0;
+		String atraccionGratis ="";
+		
 		while(sc.hasNext()) {
 			boolean seguir = true;
 			Integer tipo = sc.nextInt();
@@ -41,15 +44,23 @@ public class LeerPromocion extends Producto {
 			}
 			while(seguir){
 				String nombre1 = sc.next();
+				if(nombre1.equals(controlGratis)) {
+					atraccionGratis= sc.next();
+				}
 				for (Atraccion atraccion : LeerAtraccion.atraccionList) {
 					//System.out.println(atraccion.getNombre());
 					if(atraccion.getNombre().equals(nombre1)) {		
 					atraccionPromocion.add(atraccion);
 					}
-					if(nombre1.equals(control)) {
-						seguir = false;
-						nombre1 = "";
-					}
+					if(atraccion.getNombre().equals(atraccionGratis)) {		
+						atraccionFree.add(atraccion);
+						atraccionGratis="";
+						}
+				}
+				
+				if(nombre1.equals(control)) {
+					seguir = false;
+					nombre1 = "";
 				}
 			}
 			
@@ -64,11 +75,12 @@ public class LeerPromocion extends Producto {
 				promocionesAbs.add(packDegustacion);
 				break;
 			case 3:
-				PromocionAxB packPaisaje = new PromocionAxB(atraccionPromocion, tipo,nombre);
+				PromocionAxB packPaisaje = new PromocionAxB(atraccionPromocion, tipo,nombre,atraccionFree);
 				promocionesAxB.add(packPaisaje);
 				break;
 			}
 			atraccionPromocion.clear();
+			atraccionFree.clear();
 		}
 		sc.close();
 	}

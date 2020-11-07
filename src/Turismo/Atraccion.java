@@ -17,7 +17,7 @@ public class Atraccion extends Producto {
 	
 	public String toString() {
 		
-		return this.nombre+"; "+this.costoVisita+" ; "+this.promedioTiempo+" ; "+this.cupoVisitantes+"; "+this.tipoAtraccion;
+		return this.nombre+", "+this.costoVisita+" , "+this.promedioTiempo+" , "+this.cupoVisitantes+", "+this.tipoAtraccion;
 	}
 	
 
@@ -52,9 +52,7 @@ public class Atraccion extends Producto {
 		return nombre;
 	}
 
-	public void setTipoAtraccion(String tipoAtraccion) {
-		this.tipoAtraccion = tipoAtraccion;
-	}
+
 	
 	
 }

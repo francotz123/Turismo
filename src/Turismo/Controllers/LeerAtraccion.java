@@ -30,8 +30,8 @@ public class LeerAtraccion extends Producto {
 	
 	
 	public void leerAtracciones() {
-		for(int i = 0; i< atraccionList.size();i++ ) {
-		System.out.println(atraccionList.get(i).getNombre());
+		for (Atraccion atraccion : atraccionList) {
+			System.out.println(atraccion);
 		}
 	}
 	public void generarLista() throws FileNotFoundException {
