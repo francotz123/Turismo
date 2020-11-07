@@ -86,7 +86,7 @@ public class LeerPromocion extends Producto {
 	}
 	
 	public void generarLista() throws FileNotFoundException {
-		getPromocion("C:/Users/ragon/OneDrive/Escritorio/SoyProgramador/Turismo/promociones.in");
+		getPromocion("promociones.in");
 	}
 	
 	public void leerPromocionesPorc() {

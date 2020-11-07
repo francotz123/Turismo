@@ -35,7 +35,7 @@ public class LeerAtraccion extends Producto {
 		}
 	}
 	public void generarLista() throws FileNotFoundException {
-		atraccionList = this.getAtraccion("C:/Users/ragon/OneDrive/Escritorio/SoyProgramador/Turismo/atracciones.in");
+		atraccionList = this.getAtraccion("atracciones.in");
 	}
 
 

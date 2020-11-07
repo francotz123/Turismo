@@ -34,7 +34,7 @@ public class LeerUsuario {
 		}
 	}
 	public void generarLista() throws FileNotFoundException {
-		userList = this.getUsuarios("C:/Users/ragon/OneDrive/Escritorio/SoyProgramador/Turismo/usuarios.in");
+		userList = this.getUsuarios("usuarios.in");
 	}
 	
 }
