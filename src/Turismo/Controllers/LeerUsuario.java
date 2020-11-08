@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import Turismo.Atraccion;
 import Turismo.Usuario;
-
 public class LeerUsuario {
 	
 	static ArrayList<Usuario> userList = new ArrayList<Usuario>(); 
+	static ArrayList<Atraccion> atraccionesDisponibles = new ArrayList<Atraccion>(); 
 	
 	private ArrayList<Usuario> getUsuarios(String file ) throws FileNotFoundException{
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -35,6 +36,10 @@ public class LeerUsuario {
 	}
 	public void generarLista() throws FileNotFoundException {
 		userList = this.getUsuarios("usuarios.in");
+	}
+
+	public static ArrayList<Usuario> getUserList() {
+		return userList;
 	}
 	
 }

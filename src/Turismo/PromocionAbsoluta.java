@@ -19,11 +19,12 @@ public class PromocionAbsoluta extends Promocion {
 	
 	@Override
 	public String toString() {
-		for (Atraccion atraccion : atracciones) {
-		nombresAtraccion +=  atraccion.getNombre()+" ";
-		}
-		return "Pack " + nombre + ", nombresAtraccion="
-				+ nombresAtraccion + "precio = $"+total ;
+		return "Pack " + super.getNombre()+ ", nombresAtraccion="
+				+ super.getNombresAtraccion() + "precio = $"+this.getTotal() ;
+	}
+
+	public Integer getTotal() {
+		return total;
 	}
 
 	public Integer getDescuento() {

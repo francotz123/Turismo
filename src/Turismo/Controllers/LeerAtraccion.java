@@ -39,8 +39,7 @@ public class LeerAtraccion extends Producto {
 	}
 
 
-	public ArrayList<Atraccion> getAtraccionList() {
-	
+	public static ArrayList<Atraccion> getAtraccionList() {
 		return atraccionList;
 	}
 

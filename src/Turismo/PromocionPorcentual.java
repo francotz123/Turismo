@@ -25,11 +25,12 @@ public class PromocionPorcentual extends Promocion {
 	
 	@Override
 	public String toString() {
-		for (Atraccion atraccion : atracciones) {
-		nombresAtraccion +=  atraccion.getNombre()+", ";
-		}
-		return "Pack: " + nombre + ", Las Atracciones que incluye son = "
-				+nombresAtraccion + " precio = $"+this.totalPagar ;
+		return "Pack: " + super.getNombre() + ", Las Atracciones que incluye son = "
+				+super.getNombresAtraccion() + " precio = $"+this.getTotalPagar() ;
+	}
+
+	public Double getTotalPagar() {
+		return totalPagar;
 	}
 
 	public Double getDescuento() {

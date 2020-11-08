@@ -1,11 +1,12 @@
 package Turismo;
 
-public class Atraccion extends Producto {
-	private int costoVisita;
+public class Atraccion extends Producto implements Comparable<Atraccion> {
+	private Integer costoVisita;
 	private double promedioTiempo;
 	private int cupoVisitantes;
 	private String tipoAtraccion;
 	private String nombre;
+
 	
 	public Atraccion(String nombre, int costoVisita, double promedioTiempo, int cupoVisitantes, String tipoAtraccion) {
 		this.nombre = nombre;
@@ -17,32 +18,27 @@ public class Atraccion extends Producto {
 	
 	public String toString() {
 		
-		return this.nombre+", "+this.costoVisita+" , "+this.promedioTiempo+" , "+this.cupoVisitantes+", "+this.tipoAtraccion;
+		return "Nombre atraccion: "+this.nombre+"\nCosto: "+this.costoVisita+"\nTiempo que requiere: "+this.promedioTiempo+"\nCupo total: "+this.cupoVisitantes+"\nTipo de atraccion: "+this.tipoAtraccion+"\n\r";
 	}
 	
+	public boolean puedeComprar(int presupuesto) {
+		return this.getCostoVisita() <= presupuesto;	
+	}
+	
+	public boolean tiempoDisponible(Double tiempoUser) {
+		return this.getPromedioTiempo() <= tiempoUser;
+	}
 
 	public int getCostoVisita() {
 		return costoVisita;
 	}
 
-	public void setCostoVisita(int costoVisita) {
-		this.costoVisita = costoVisita;
-	}
-
 	public double getPromedioTiempo() {
 		return promedioTiempo;
 	}
-
-	public void setPromedioTiempo(double promedioTiempo) {
-		this.promedioTiempo = promedioTiempo;
-	}
-
+	
 	public int getCupoVisitantes() {
 		return cupoVisitantes;
-	}
-
-	public void setCupoVisitantes(int cupoVisitantes) {
-		this.cupoVisitantes = cupoVisitantes;
 	}
 
 	public String getTipoAtraccion() {
@@ -52,7 +48,9 @@ public class Atraccion extends Producto {
 		return nombre;
 	}
 
+	@Override
+	public int compareTo(Atraccion t) {
+		return costoVisita.compareTo(t.getCostoVisita());
+	}
 
-	
-	
 }
