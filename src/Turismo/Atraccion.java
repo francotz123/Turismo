@@ -1,6 +1,7 @@
 package Turismo;
 
 public class Atraccion extends Producto implements Comparable<Atraccion> {
+	
 	private Integer costoVisita;
 	private double promedioTiempo;
 	private int cupoVisitantes;

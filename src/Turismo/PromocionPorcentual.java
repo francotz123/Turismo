@@ -3,38 +3,38 @@ package Turismo;
 import java.util.ArrayList;
 
 public class PromocionPorcentual extends Promocion {
-	Double descuento = 0.0;
-	Double totalPagar = 0.0;
-	public PromocionPorcentual(ArrayList<Atraccion> nombreAtraccion, Integer tipo, String nombre, Double descuento) {
+	Integer descuento = 0;
+	
+	public PromocionPorcentual(ArrayList<Atraccion> nombreAtraccion, Integer tipo, String nombre, Integer descuento) {
 		super(nombreAtraccion, tipo, nombre);
 		if(descuento<= 100.0) {
 			this.descuento = descuento;
-		} else descuento = 0.0;
+		} else descuento = 0;
 		this.beneficios();
+		super.tiempoTotal();
 	}
+
 
 	@Override
 	public void beneficios() {
 		for (Atraccion atraccion : super.getAtracciones()) {
-			this.totalPagar += atraccion.getCostoVisita();
+			super.totalPagar += atraccion.getCostoVisita();
 		}
 		
 		this.descuento /= 100;
-		this.totalPagar -= this.totalPagar*descuento;
+		super.totalPagar -= super.totalPagar*descuento;
 	}
 	
 	@Override
 	public String toString() {
-		return "Pack: " + super.getNombre() + ", Las Atracciones que incluye son = "
-				+super.getNombresAtraccion() + " precio = $"+this.getTotalPagar() ;
+		return  super.getNombre() + ", Las Atracciones que incluye son = "
+				+super.getNombresAtraccion() + " tiempo que requiere: "+super.getTiempoTotal()+" horas. "+" Precio = $"+this.getTotalPagar()+" " ;
 	}
 
-	public Double getTotalPagar() {
-		return totalPagar;
-	}
 
-	public Double getDescuento() {
+	public Integer getDescuento() {
 		return descuento;
 	}
+
 
 }

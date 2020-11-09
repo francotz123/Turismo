@@ -16,17 +16,27 @@ public class Usuario {
 	private String atraccionFav;
 	private String nombre;
 	private boolean compro = false;
+	private int presupuestoAux;
+	private double timpoDisponibleAux;
 	
+
+
 	private ArrayList<Atraccion> atraccionesConPreferencias = new ArrayList<Atraccion>();
 	private ArrayList<Atraccion> atraccionesSinPrefenecias = new ArrayList<Atraccion>();
 	private ArrayList<Atraccion> atraccionesCompradas = new ArrayList<Atraccion>();
+	private ArrayList<Promocion> promocionesConPreferencias = new ArrayList<Promocion>();
+	private ArrayList<Promocion> promocionesSinPreferencias = new ArrayList<Promocion>();
+	private ArrayList<Promocion> promocionesCompradas = new ArrayList<Promocion>();
 	
 	public Usuario(String nombre, int presupuesto, double timpoDisponible, String atraccionFav) { //CONSTRUCTOR
 		this.nombre = nombre;
 		this.presupuesto = presupuesto;
 		this.timpoDisponible = timpoDisponible;
 		this.atraccionFav = atraccionFav;
+		this.presupuestoAux = presupuesto;
+		this.timpoDisponibleAux = timpoDisponible;
 	}
+
 
 	@Override
 	public String toString() { 
@@ -34,25 +44,12 @@ public class Usuario {
 	}
 	
 	
+	/*--------------RECIBE LA LISTA DE TODAS LAS ATRACCIONES Y PROMOCIONES, BUSCA LAS QUE TENGAN PREFERENCIA CON EL USUARIO------------*/
 	
-	/*--------------METODO QUE ELIGE QUE OPCIONES MOSTRAR, SI CON PREFERENCIAS O SIN PREFERENCIAS------------*/
-	
-	
-	public void mostrarOpcion(ArrayList<Atraccion> atraccionesConPreferencias, ArrayList<Atraccion> atraccionesSinPref) {
-		this.generarOpciones(atraccionesConPreferencias);
-		if(this.seguirComprando()) {
-			System.out.println("También te podemos ofrecer otras atracciones: \n");
-			this.generarOpciones(atraccionesSinPref);
-		}
-		if(compro) {
-			cerrarCompra(atraccionesCompradas);
-		}
-	}
-	
-	/*--------------RECIBE LA LISTA DE TODAS LAS ATRACCIONES Y BUSCA LAS QUE TENGAN PREFERENCIA CON EL USUARIO------------*/
-	
-	public void atraccionesOpcionales(ArrayList<Atraccion> listaAtracciones) {
-		for (Atraccion atraccion : listaAtracciones) {
+	public void sugerirOpciones(ArrayList<Atraccion> listaAllAtracciones, ArrayList<Promocion> listaAllPromociones) {
+		boolean controller = true;
+		
+		for (Atraccion atraccion : listaAllAtracciones) {
 			if(atraccion.getTipoAtraccion().equals(this.getAtraccionFav()) && atraccion.getCostoVisita() <= this.getPresupuesto() 
 					&& atraccion.getPromedioTiempo() <= this.getTimpoDisponible() ) {	
 				atraccionesConPreferencias.add(atraccion);			
@@ -61,47 +58,109 @@ public class Usuario {
 			}
 
 		}
+		
+		for (Promocion promocion : listaAllPromociones) {
+			for (Atraccion atraccion : promocion.atracciones) {
+				if(atraccion.getTipoAtraccion().equals(this.getAtraccionFav()) && controller == true ) {
+					promocionesConPreferencias.add(promocion);
+					controller=false;
+				}
+			}	
+			if(controller == true ) {
+				promocionesSinPreferencias.add(promocion);
+			} 
+			controller=true;
+		}
+
 		Collections.sort(atraccionesSinPrefenecias, Collections.reverseOrder()); 	//ORDENA LAS LISTAS DE MAYOR A MENOR, POR PRECIO
 		Collections.sort(atraccionesConPreferencias, Collections.reverseOrder());
-		mostrarOpcion(atraccionesConPreferencias, atraccionesSinPrefenecias);
+		
+		this.mostrarOpcion(atraccionesConPreferencias, atraccionesSinPrefenecias);
 	}
 	
-	/*------------------METODO PARA GENERAR LISTAS QUE SE LE MOSTRARA AL USUARIO---------------------------------*/
 	
-	public void generarOpciones(ArrayList<Atraccion> atraccionesDisponibles) {
+	/*--------------METODO QUE ELIGE QUE OPCIONES MOSTRAR, SI CON PREFERENCIAS O SIN PREFERENCIAS------------*/
+	
+	
+	private void mostrarOpcion(ArrayList<Atraccion> atraccionesConPreferencias, ArrayList<Atraccion> atraccionesSinPref) {
+		System.out.println("Tu estado actual es: Monedas: "+this.getPresupuesto()+", Tiempo: "+this.getTimpoDisponible()+" horas");
+		this.mostrarPromociones(promocionesConPreferencias);
+		this.mostrarAtracciones(atraccionesConPreferencias);
+		if(this.seguirComprando()) {
+			System.out.println("También te podemos ofrecer otras opciones: \n");
+			this.mostrarPromociones(promocionesSinPreferencias);
+			this.mostrarAtracciones(atraccionesSinPref);
+		}
+		if(compro) {
+			cerrarCompra(atraccionesCompradas,promocionesCompradas );
+		}else {
+			System.out.println("Usted no realizó ninguna compra.");
+		}
+	}
+	
+	
+	/*------------------SUGERIR ATRACCIONES---------------------------------*/
+	
+	public void mostrarAtracciones(ArrayList<Atraccion> atraccionesDisponibles) {
 		Scanner sc;
-		System.out.println("Tu estado actual es: Dinero: "+this.getPresupuesto()+", Tiempo: "+this.getTimpoDisponible()+" horas\n");
-		
 		for (Atraccion atraccion : atraccionesDisponibles) {
 			if(atraccion.puedeComprar(this.getPresupuesto()) && atraccion.tiempoDisponible(this.getTimpoDisponible()) && this.seguirComprando()) {
-				System.out.println(atraccion.toString() +"Deseas comprar? S/N");
+				System.out.println(atraccion.toString() +" Deseas comprar? S/N");
 				sc = new Scanner(System.in);
 				String respuestaUser = sc.nextLine();
 				if(respuestaUser.equals("S")) {
 					this.compro = true;
-					atraccionesCompradas.add(atraccion);
+					this.atraccionesCompradas.add(atraccion);
 					this.presupuesto -= atraccion.getCostoVisita();
 					this.timpoDisponible -= atraccion.getPromedioTiempo();
 					System.out.println("Compraste: "+atraccion.getNombre());
-					System.out.println("Tu estado actual es: Dinero: "+this.getPresupuesto()+", Tiempo: "+this.getTimpoDisponible()+" horas");
-
 				}
-
 			}
-			
 		}
-	
 	}
 	
+	/*--------------------SUGERIR PROMOCIONES ------------------------*/
 	
+	public void mostrarPromociones(ArrayList<Promocion> promocionesLista){
+		Scanner sc;
+		for (Promocion promocion : promocionesLista) {
+			if(promocion.puedeComprar(this.getPresupuesto()) && promocion.tiempoDisponible(this.getTimpoDisponible()) &&
+					this.seguirComprando()) {
+				System.out.println(promocion.toString() +" Deseas comprar? S/N");
+				sc = new Scanner(System.in);
+				String respuestaUser = sc.nextLine();
+				if(respuestaUser.equals("S")) {
 
+					for (Atraccion atraccion : promocion.getAtracciones()) {
+						if(this.atraccionesConPreferencias.contains(atraccion) ) {
+							atraccionesConPreferencias.remove(atraccion);
+						}else if( this.atraccionesSinPrefenecias.contains(atraccion)) {
+							atraccionesSinPrefenecias.remove(atraccion);
+						}
+					}
+					
+					this.compro = true;
+					this.promocionesCompradas.add(promocion);
+					this.presupuesto -= promocion.getTotalPagar();
+					this.timpoDisponible -= promocion.getTiempoTotal();
+					System.out.println("Compraste: "+promocion.getNombre());
+					System.out.println("Tu estado actual es: Dinero: "+this.getPresupuesto()+", Tiempo: "+this.getTimpoDisponible()+" horas");
+				}
+			}
+		}
+	}
+
+
+	
 	/*--------------METODO PARA CERRAR COMPRA, MUESTRA RESUMEN DEL ITINERARIO Y GENERA ARCHIVO-----------------*/
 	
-	public void cerrarCompra(ArrayList<Atraccion> atraccionesCompradas) {
+	public void cerrarCompra(ArrayList<Atraccion> atraccionesCompradas,ArrayList<Promocion> promocionCompradas) {
 		FileWriter fichero = null;
         PrintWriter pw = null;
         int totalPagar = 0;
         Double totalHoras = 0.0;
+        String nombresPack = "";
+        String nombresAtraccion = "";
         String nombreFichero =this.getNombre()+" Compra.out";
         try
         {
@@ -109,10 +168,17 @@ public class Usuario {
             pw = new PrintWriter(fichero);
             
             for (Atraccion atraccion : atraccionesCompradas) {
+            	nombresAtraccion += atraccion.getNombre()+", ";
 				totalPagar += atraccion.getCostoVisita();
 				totalHoras += atraccion.getPromedioTiempo();
 			}
-            pw.println("Total a pagar: " + totalPagar+"\n Total Horas: "+totalHoras);
+            for (Promocion promocion : promocionCompradas) {
+            	nombresPack += promocion.getNombre()+", ";
+				totalPagar += promocion.getTotalPagar();
+				totalHoras += promocion.getTiempoTotal();
+			}
+            pw.println("Usuario "+this.nombre+":"+"\nMonedas: "+this.getPresupuestoAux()+"\nTiempo disponible: "+this.getTimpoDisponibleAux()+"\nPreferencias: "
+            		+this.getAtraccionFav()+"\nPacks Comprados:"+nombresPack+"\nAtracciones compradas: "+nombresAtraccion+"\nTotal a pagar: " + totalPagar+"\nTotal Horas: "+totalHoras);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,21 +200,19 @@ public class Usuario {
         System.out.println("Cantidad de horas: "+totalHoras);
 	}
 	
+
 	
 	/*--------------BOOLEANO PARA COMPROBAR SI SE PUEDE SEGUIR COMPRANDO------------*/
 	
 	private boolean seguirComprando() {
 		return ( this.getPresupuesto() > 0 && this.getTimpoDisponible() > 0);
-		
-		
 	}
 	
-	/*----------------GETTERS Y SETTERS------------------*/
 	
+	/*----------------GETTERS Y SETTERS------------------*/
 	public int getPresupuesto() {
 		return presupuesto;
 	}
-
 
 	public double getTimpoDisponible() {
 		return timpoDisponible;
@@ -161,6 +225,13 @@ public class Usuario {
 	public String getAtraccionFav() {
 		return atraccionFav;
 	}
+	
+	public double getTimpoDisponibleAux() {
+		return timpoDisponibleAux;
+	}
 
+	public int getPresupuestoAux() {
+		return presupuestoAux;
+	}
 	
 }

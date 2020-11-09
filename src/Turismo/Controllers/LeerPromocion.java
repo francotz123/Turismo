@@ -25,7 +25,7 @@ public class LeerPromocion extends Producto {
 		sc.useLocale(Locale.ENGLISH);
 		String control= "-"; 			// controlador de fin de linea, significando que lo siguiente es otra promocion
 		String controlGratis= ","; 		// Sstring necesario para identifcar donde la atraccion gratis, en el caso de promocion AxB
-		Double descuento = 0.0; 		//Booleano con el descuento en las promociones porcentuales
+		Integer descuento = 0; 		//Booleano con el descuento en las promociones porcentuales
 		Integer total = 0;				//interger con el total a pagar en las promociones absolutas
 		String atraccionGratis =""; 
 		
@@ -35,7 +35,7 @@ public class LeerPromocion extends Producto {
 			String nombre = sc.next();
 			
 			if(tipo == 1) {						//Dependiento el tipo de promocion, lo que lee es el descuento (porcentual) o el monto total (absoluto) 
-				 descuento = sc.nextDouble();
+				 descuento = sc.nextInt();
 			}else if(tipo == 2){
 				total = sc.nextInt();
 			}
@@ -43,7 +43,7 @@ public class LeerPromocion extends Producto {
 			while(seguir){
 				String nombre1 = sc.next();					//si no se guarda en una variable, cada vez que se usa next(), no se puede volver a utilizar lo que lea
 				if(nombre1.equals(controlGratis)) {			// si el string que leyó, es igual al controladorGratis (,), quiere decir que lo que sigue es la atraccion gratis 	
-					atraccionGratis= sc.next();		
+					atraccionGratis= sc.next();	
 				}
 				for (Atraccion atraccion : LeerAtraccion.atraccionList) {	//Buscamos en toda la lista de atracciones, las atracciones que coinciden con las de las promociones
 					//System.out.println(atraccion.getNombre());
@@ -93,5 +93,11 @@ public class LeerPromocion extends Producto {
 			System.out.println(promocion.toString());
 		}	
 	}
+
+	public static ArrayList<Promocion> getPromocionList() {
+		return promocionList;
+	}
+	
+	
 	
 }

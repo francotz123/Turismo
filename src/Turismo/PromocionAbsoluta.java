@@ -8,7 +8,8 @@ public class PromocionAbsoluta extends Promocion {
 	
 	public PromocionAbsoluta(ArrayList<Atraccion> nombreAtraccion, Integer tipo, String nombre, Integer total) {
 		super(nombreAtraccion, tipo, nombre);
-		this.total = total;
+		super.totalPagar = total;
+		super.tiempoTotal();
 	}
 
 	@Override
@@ -17,11 +18,7 @@ public class PromocionAbsoluta extends Promocion {
 	}
 
 	
-	@Override
-	public String toString() {
-		return "Pack " + super.getNombre()+ ", nombresAtraccion="
-				+ super.getNombresAtraccion() + "precio = $"+this.getTotal() ;
-	}
+
 
 	public Integer getTotal() {
 		return total;
@@ -30,4 +27,12 @@ public class PromocionAbsoluta extends Promocion {
 	public Integer getDescuento() {
 		return total;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "Pack " + super.getNombre()+ ", nombresAtraccion="
+				+ super.getNombresAtraccion() + " tiempo que requiere: "+super.getTiempoTotal()+" horas. "+ "precio = $"+super.getTotalPagar();
+	}
+
 }

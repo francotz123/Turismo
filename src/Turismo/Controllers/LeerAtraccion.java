@@ -15,6 +15,7 @@ public class LeerAtraccion extends Producto {
 	public  ArrayList<Atraccion> getAtraccion(String file ) throws FileNotFoundException{
 		Scanner sc = new Scanner(new File(file));
 		sc.useLocale(Locale.ENGLISH);
+		
 		while(sc.hasNext()) {
 			String nombre = sc.next();
 			Integer costoVisita = sc.nextInt();

@@ -19,18 +19,17 @@ public class ApliacationTurismo {
 		atracciones.generarLista();
 		LeerPromocion promociones = new LeerPromocion();
 		promociones.generarLista();
-		
-		
 		for (Usuario users : LeerUsuario.getUserList()) {
 			System.out.println("Bienvenido "+users.getNombre()+"!\n");
-			ofrecerAtracciones(users, LeerAtraccion.getAtraccionList());
+			ofrecerAtracciones(users, LeerAtraccion.getAtraccionList(), LeerPromocion.getPromocionList());
+			
 			System.out.println("--------------");
 			
 		}
 		
 	}
 	
-	public static void ofrecerAtracciones(Usuario user, ArrayList<Atraccion> atracciones ) {
-		user.atraccionesOpcionales(atracciones);
+	public static void ofrecerAtracciones(Usuario user, ArrayList<Atraccion> atracciones, ArrayList<Promocion> promociones ) {
+		user.sugerirOpciones(atracciones,promociones);
 	}
 }
